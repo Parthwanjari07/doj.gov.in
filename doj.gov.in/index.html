@@ -3375,6 +3375,76 @@
     }
 </script>
 
+
+<!-- <script>
+    const API_URL = 'https://60f7-34-32-176-193.ngrok-free.app/predict';
+
+    function toggleChat() {
+        var dialog = document.getElementById('chatbot-dialog');
+        dialog.style.display = dialog.style.display === 'none' || dialog.style.display === '' ? 'flex' : 'none';
+    }
+
+    function sendMessage() {
+        var userInput = document.getElementById('user-input');
+        var messages = document.getElementById('messages');
+
+        if (userInput.value.trim() !== '') {
+            // Append user's message
+            var userMessage = document.createElement('div');
+            userMessage.textContent = userInput.value;
+            userMessage.className = 'user-message';
+            messages.appendChild(userMessage);
+
+            // Send the message to the API
+            fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    instruction: userInput.value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Parse the bot's response from the API
+                if (data && data.response) {
+                    var botMessageText = data.response;
+
+                    // Append bot's response
+                    var botMessage = document.createElement('div');
+                    botMessage.textContent = botMessageText;
+                    botMessage.className = 'bot-message';
+                    messages.appendChild(botMessage);
+                } else {
+                    // Handle unexpected API response
+                    var errorMessage = document.createElement('div');
+                    errorMessage.textContent = "Sorry, something went wrong!";
+                    errorMessage.className = 'bot-message';
+                    messages.appendChild(errorMessage);
+                }
+
+                // Scroll to the bottom of the messages
+                messages.scrollTop = messages.scrollHeight;
+            })
+            .catch(error => {
+                // Handle any errors from the API request
+                console.error('Error:', error);
+                var errorMessage = document.createElement('div');
+                errorMessage.textContent = "Error communicating with the bot.";
+                errorMessage.className = 'bot-message';
+                messages.appendChild(errorMessage);
+
+                // Scroll to the bottom of the messages
+                messages.scrollTop = messages.scrollHeight;
+            });
+
+            // Clear the input
+            userInput.value = '';
+        }
+    }
+</script> -->
+
     <!--a class="top" href="#top"><span class="icon-arrow-top"></span></a-->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2ES66Q14T"></script>
