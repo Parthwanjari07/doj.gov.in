@@ -3326,14 +3326,31 @@
 
 
 <script>
-    const API_URL = 'https://773b-34-19-49-181.ngrok-free.app/predict';
+const API_URL = 'https://329a-34-16-135-116.ngrok-free.app/predict';
 
-    function toggleChat() {
-        var dialog = document.getElementById('chatbot-dialog');
-        dialog.style.display = dialog.style.display === 'none' || dialog.style.display === '' ? 'flex' : 'none';
-    }
+function toggleChat() {
+    var dialog = document.getElementById('chatbot-dialog');
+    dialog.style.display = dialog.style.display === 'none' || dialog.style.display === '' ? 'flex' : 'none';
+}
 
-    function sendMessage() {
+function cleanAndFormatResponse(text) {
+    // Split the text into sentences
+    let sentences = text.split('.').map(sentence => sentence.trim()).filter(sentence => sentence.length > 0);
+
+    // Remove incomplete or repetitive sentences
+    let cleanedSentences = [];
+    sentences.forEach((sentence, index) => {
+        // Check if the sentence is complete and not a repetition of the previous sentence
+        if (sentence.endsWith('.') || (index > 0 && !sentence.includes(sentences[index - 1]))) {
+            cleanedSentences.push(sentence);
+        }
+    });
+
+    // Join the cleaned sentences back together
+    return cleanedSentences.join('. ') + '.';
+}
+
+function sendMessage() {
     var userInput = document.getElementById('user-input');
     var messages = document.getElementById('messages');
 
@@ -3356,14 +3373,13 @@
         })
         .then(response => response.json())
         .then(data => {
-            // Parse the bot's response from the API
+            // Parse and clean the bot's response from the API
             if (data && data.response) {
-                // Handle the bot's response, including newlines
-                var botMessageText = data.response.split('\n').join('<br/>');
+                var botMessageText = cleanAndFormatResponse(data.response);
 
-                // Append bot's response
+                // Append bot's cleaned and formatted response
                 var botMessage = document.createElement('div');
-                botMessage.innerHTML = botMessageText; // Use innerHTML to preserve line breaks
+                botMessage.innerHTML = botMessageText.split('\n').join('<br/>');
                 botMessage.className = 'bot-message';
                 messages.appendChild(botMessage);
             } else {
@@ -3393,6 +3409,7 @@
         userInput.value = '';
     }
 }
+
 
 </script>
 
